@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
@@ -39,9 +39,9 @@ useEffect(() => {
   }
 
   // Now react only to CHANGES after the initial value
-  if (user.username !== handle) {
-    router.push(`/edit?handle=${handle}`);
-    setHandle(user.username);
+  if (user?.username !== handle) {
+    router.push(`/edit?handle=${handle}&frompage=router&newusername=${user?.username}`);
+    setHandle(user?.username);
   }
 }, [isLoaded, user, handle]);
 

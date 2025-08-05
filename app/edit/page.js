@@ -7,9 +7,10 @@ import RotatingText from "@/components/RotatingText";
 import { useParams } from "next/navigation";
 
 const Update = () => {
-  
   const searchParams = useSearchParams();
   const handleParam = searchParams.get("handle");
+  const frompage = searchParams.get("frompage");
+  const newusername = searchParams.get("newusername");
   const [handle, setHandle] = useState(handleParam || "");
 
   const [links, setLinks] = useState([{ link: "", linkText: "" }]);
@@ -19,7 +20,7 @@ const Update = () => {
 
   const inputRef = useRef(null);
 
-  const [newHandle, setNewHandle] = useState(handleParam || "");
+  const [newHandle, setNewHandle] = useState(newusername || "");
 
   // Fetch existing user data
   useEffect(() => {
@@ -145,7 +146,6 @@ const Update = () => {
     <div className="bg-white h-screen grid grid-cols-2">
       <div className="col1 flex flex-col justify-center items-center gap-5">
         <ToastContainer />
-
         <Link href="/">
           <button className="absolute top-4 left-4 p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors duration-200">
             <svg
@@ -164,15 +164,13 @@ const Update = () => {
             </svg>
           </button>
         </Link>
-
         <h1 className="font-extrabold text-5xl">Update your LinkDo</h1>
         <RotatingText />
-
         <input
           type="text"
           value={newHandle}
-          onChange={(e) => setNewHandle(e.target.value)}
-          className="bg-gray-100 rounded-lg h-16 p-3 w-145 font-bold text-gray-500"
+          readOnly
+          className="bg-gray-100 rounded-lg h-16 p-3 w-145 font-bold text-gray-500 hover:cursor-not-allowed"
         />
 
         <p className="text-gray-500">Edit your links</p>
@@ -220,7 +218,6 @@ const Update = () => {
               </div>
             );
           })}
-
         <button
           className="p-2 bg-purple-600 text-white rounded hover:bg-purple-700"
           onClick={addLink}
@@ -240,7 +237,6 @@ const Update = () => {
             />
           </svg>
         </button>
-
         <p className="text-gray-500">Update Profile Picture</p>
         <div>
           {pic ? (
@@ -297,7 +293,6 @@ const Update = () => {
             />
           )}
         </div>
-
         <button
           onClick={updateLinks}
           disabled={!handle || links.some((l) => !l.link || !l.linkText)}

@@ -104,7 +104,7 @@ const Navbar = () => {
             <Link href={`/${user?.username || "login"}`}>
               <li>Your Page </li>
             </Link>
-            <Link href={`/edit?handle=${user?.username}`}>
+            <Link href={`/edit?handle=${user?.username}&frompage=edit&newusername=${user?.username}`}>
               <li>Edit</li>
             </Link>
           </SignedIn>
