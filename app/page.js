@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect} from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
@@ -16,9 +16,9 @@ const poppins = Poppins({
 });
 
 export default function Home() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [text, setText] = useState("your-username");
-  const [handle, setHandle] = useState((user && user?.username) || "");
+  const [handle, setHandle] = useState(user?.username || "123");
 
   useEffect(() => {
     if (user?.username) {
@@ -26,19 +26,30 @@ export default function Home() {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (user?.username !== handle) {
-  //     router.push(`/edit?handle=${handle}`);
-  //     setHandle(user?.username);
-  //   }
-  // }, [user]);
+  const didRunOnce = useRef(false);
+
+useEffect(() => {
+  // Only proceed when user is loaded AND handle is initialized
+  if (!isLoaded || !user) return;
+
+  // Skip the very first effect run when user/handle become available
+  if (!didRunOnce.current) {
+    didRunOnce.current = true;
+    return;
+  }
+
+  // Now react only to CHANGES after the initial value
+  if (user.username !== handle) {
+    router.push(`/edit?handle=${handle}`);
+    setHandle(user.username);
+  }
+}, [isLoaded, user, handle]);
 
   const router = useRouter();
   const createTree = () => {
     const link = `/generate?handle=${text}`;
     router.push(link);
   };
-  
 
   return (
     <>
