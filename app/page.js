@@ -1,103 +1,111 @@
+"use client";
+
 import Image from "next/image";
+import { Poppins } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { useState, useEffect} from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["800"], // '800' corresponds to ExtraBold
+  variable: "--font-poppins", // Create a CSS variable
+});
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { user } = useUser();
+  const [text, setText] = useState("your-username");
+  const [handle, setHandle] = useState((user && user?.username) || "");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  useEffect(() => {
+    if (user?.username) {
+      setText(user?.username);
+    }
+  }, [user]);
+
+  // useEffect(() => {
+  //   if (user?.username !== handle) {
+  //     router.push(`/edit?handle=${handle}`);
+  //     setHandle(user?.username);
+  //   }
+  // }, [user]);
+
+  const router = useRouter();
+  const createTree = () => {
+    const link = `/generate?handle=${text}`;
+    router.push(link);
+  };
+  
+
+  return (
+    <>
+      <Navbar />
+      <main>
+        <section className="bg-[#254f1a] h-[150vh] grid grid-cols-2">
+          <div className="flex flex-col justify-center items-center ml-[5vw] gap-4 relative top-[0vh]">
+            <p
+              className={`text-[#d2e823] font-extrabold text-7xl ${poppins.variable}`}
+            >
+              Everything you are. In one, simple link in bio.
+            </p>
+            <p className="text-white text-xl font-bold ">
+              Join 70M+ people using Linktree for their link in bio. One link to
+              help you share everything you create, curate and sell from your
+              Instagram, TikTok, Twitter, YouTube and other social media
+              profiles.
+            </p>
+
+            <div className="input flex gap-2 mt-10 relative right-[15vh]">
+              <input
+                type="text"
+                className="bg-white rounded-lg h-16 p-3 w-70 font-bold text-gray-500 "
+                value={text}
+                placeholder="Your Handle"
+                readOnly
+              />
+              <button
+                onClick={() => createTree()}
+                className="bg-[#e9c0e9] font-bold text-gray-800 rounded-full h-16 py-5 flex items-center px-8 cursor-pointer"
+              >
+                Claim your LinkDo
+              </button>
+            </div>
+          </div>
+          <div className="flex relative top-[30vh] justify-center">
+            <img src="homePage.png" alt="homepage " className="h-[90vh]" />
+          </div>
+        </section>
+        <section className="bg-[#e9c0e9] min-h-[100vh] grid grid-cols-2">
+          <div className="flex justify-center items-center">
+            <img src="homePage2.png" alt="homepage" />
+          </div>
+          <div className="flex flex-col justify-center items-center ml-[5vw] gap-4 relative top-[0vh]">
+            <p
+              className={`text-[#502274] font-extrabold text-7xl ${poppins.variable}`}
+            >
+              Create and customize your Linktree in minutes
+            </p>
+            <p className="text-black text-xl font-semibold ">
+              Connect your TikTok, Instagram, Twitter, website, store, videos,
+              music, podcast, events and more. It all comes together in a link
+              in bio landing page designed to convert.
+            </p>
+
+            <div className="input flex gap-2 mt-10 relative right-[30vh]">
+              <button
+                className="bg-[#502274] font-bold text-white rounded-full h-16 py-5 flex items-center px-16 cursor-pointer hover:bg-[#624779]"
+                onClick={() => createTree()}
+              >
+                Get started for free
+              </button>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }
