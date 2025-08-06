@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect, useRef, use } from "react";
@@ -9,11 +9,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["800"], // '800' corresponds to ExtraBold
-  variable: "--font-poppins", // Create a CSS variable
-});
+// const poppins = Poppins({
+//   subsets: ["latin"],
+//   weight: ["800"], // '800' corresponds to ExtraBold
+//   variable: "--font-poppins", // Create a CSS variable
+// });
 
 export default function Home() {
   const { user, isLoaded } = useUser();
@@ -58,7 +58,7 @@ useEffect(() => {
         <section className="bg-[#254f1a] h-[150vh] grid grid-cols-2">
           <div className="flex flex-col justify-center items-center ml-[5vw] gap-4 relative top-[0vh]">
             <p
-              className={`text-[#d2e823] font-extrabold text-7xl ${poppins.variable}`}
+              className={`text-[#d2e823] font-extrabold text-7xl `}
             >
               Everything you are. In one, simple link in bio.
             </p>
@@ -95,7 +95,7 @@ useEffect(() => {
           </div>
           <div className="flex flex-col justify-center items-center ml-[5vw] gap-4 relative top-[0vh]">
             <p
-              className={`text-[#502274] font-extrabold text-7xl ${poppins.variable}`}
+              className={`text-[#502274] font-extrabold text-7xl `}
             >
               Create and customize your Linktree in minutes
             </p>
