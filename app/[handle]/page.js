@@ -1,73 +1,72 @@
-import Link from "next/link";
-import clientPromise from "@/lib/mongodb";
 import { notFound } from "next/navigation";
+import { Poppins } from "next/font/google";
+import clientPromise from "@/lib/mongodb";
+import { ProfileImage } from "./components/ProfileImage";
+import { LinkButton } from "./components/LinkButton";
+import { ShareButton } from "./components/ShareButton";
+import { ThemeSwitcher } from "./components/ThemeSwitcher";
+// 1. Import the new VideoBackground component
+import VideoBackground from "./components/VideoBackground";
+import { HomeButton } from "./components/HomeButton";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
 
 export default async function Page({ params }) {
-  const handle = (await params).handle;
+  const { handle } = await params;
   const client = await clientPromise;
   const db = client.db("LinkDo");
   const collection = db.collection("links");
-
   const item = await collection.findOne({ handle });
-  if (!item) return notFound();
+
+  if (!item) {
+    return notFound();
+  }
 
   return (
-    <>
-      <div>
-        <Link href="/">
-          <button className="absolute top-4 left-4 p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors duration-200">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 9.75L12 3l9 6.75M4.5 10.5v9.75h15v-9.75"
-              />
-            </svg>
-          </button>
-        </Link>
-      </div>
-      <div className="min-h-screen bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center px-4 py-12">
-        <div className="bg-white max-w-md w-full rounded-2xl shadow-xl p-6 md:p-10 text-center">
-          {item.pic == null ? (
-            <img
-              src="profPic.png"
-              alt="Profile"
-              className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover mx-auto shadow-md border-4 border-black hover:scale-105 transition-transform duration-300"
-            />
-          ) : (
-            <img
-              src={`data:image/jpeg;base64,${item.pic}`}
-              alt="Profile"
-              className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover mx-auto shadow-md border-4 border-black hover:scale-105 transition-transform duration-300"
-            />
-          )}
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mt-4">
+    // 2. Remove 'animated-gradient' and add a plain div wrapper
+    <div className={`min-h-screen ${poppins.className}`}>
+      {/* 3. Add the VideoBackground component here */}
+      <VideoBackground />
+
+      
+      {/* 4. Add 'relative z-10' to the main content to ensure it appears on top */}
+      <main className="relative z-10 flex items-center justify-center min-h-screen px-4 py-24">
+        <ThemeSwitcher />
+      <ShareButton />
+      <HomeButton />
+        <div className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl max-w-md w-full rounded-2xl shadow-2xl p-6 md:p-8 text-center ring-1 ring-black/5">
+          <ProfileImage
+            src={item.pic ? `data:image/jpeg;base64,${item.pic}` : null}
+            alt={`Profile picture of @${item.handle}`}
+          />
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mt-4">
             @{item.handle}
           </h1>
-          <p className="text-sm text-gray-600 mt-2">{item.desc}</p>
-          <div className="mt-6 flex flex-col gap-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 px-4">{item.desc}</p>
+          <div className="mt-8 flex flex-col gap-4 w-full">
             {item.links.map((link, index) => (
-              <Link
+              <LinkButton
                 key={index}
                 href={link.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="w-full bg-purple-100 hover:bg-purple-200 transition-all duration-200 px-4 py-3 rounded-lg shadow text-purple-800 font-medium">
-                  {link.linkText}
-                </div>
-              </Link>
+                title={link.linkText}
+                type={
+                  link.link.includes("youtube") ? "youtube" :
+                  link.link.includes("twitter") ? "twitter" :
+                  link.link.includes("shop") ? "shop" :
+                  link.link.includes("instagram") ? "instagram" :
+                  link.link.includes("facebook") ? "facebook" :
+                  link.link.includes("github") ? "github" :
+                  link.link.includes("linkedin") ? "linkedin" : "default"
+                }
+                priority={link.priority || false}
+              />
             ))}
           </div>
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }

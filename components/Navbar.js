@@ -54,9 +54,9 @@ const Navbar = () => {
 <div className="logo flex gap-20 items-center mx-4">
         <Link href="/">
           <div className="flex items-center justify-center gap-1">
-            <span className="font font-extrabold text-3xl">LinkDo</span>
+            <span className="font font-extrabold text-black text-3xl">LinkDo</span>
             <span>
-              <img src="/logo.svg" alt="LinkDo Logo" className="w-10 h-10" />
+              <img src="/logo.ico" alt="LinkDo Logo" className="w-10 h-10" />
             </span>
           </div>{" "}
         </Link>
