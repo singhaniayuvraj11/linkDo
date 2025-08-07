@@ -50,7 +50,7 @@ export default function AboutPage() {
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Built for Everyone</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  Whether you're a content creator, a small business, an artist, or just someone who wants to share multiple links easily, linkDo is the perfect tool for you.
+                  Whether you&apos;re a content creator, a small business, an artist, or just someone who wants to share multiple links easily, linkDo is the perfect tool for you.
                 </p>
               </div>
 

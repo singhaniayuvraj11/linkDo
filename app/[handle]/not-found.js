@@ -37,7 +37,7 @@ export default function NotFound() {
         No LinkDo Found
       </h1>
       <p className="mb-6 text-lg text-purple-600">
-        It looks like there's no <strong>LinkDo</strong> associated with this
+        It looks like there&apos;s no <strong>LinkDo</strong> associated with this
         username.
       </p>
       <Link href={`/generate?handle=${user?.username}`}><div className="input flex gap-2 mt-10 ">

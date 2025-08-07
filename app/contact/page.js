@@ -119,7 +119,7 @@ const ContactPage = () => {
               Contact & Support
             </h1>
             <p className="mt-4 max-w-3xl mx-auto text-lg sm:text-xl text-[#d2e823]/90">
-              We're here to help. Find the best way to reach us and get answers to common questions below.
+              We&apos;re here to help. Find the best way to reach us and get answers to common questions below.
             </p>
           </header>
 
