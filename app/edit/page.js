@@ -144,7 +144,7 @@ const Update = () => {
 
   return (
     <div className="bg-white h-screen grid grid-cols-2">
-      <div className="col1 flex flex-col justify-center items-center gap-5">
+      <div className="col1 flex flex-col justify-center items-center gap-5 bg-white">
         <ToastContainer />
         <Link href="/">
           <button className="absolute top-4 left-4 p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors duration-200">
@@ -164,7 +164,7 @@ const Update = () => {
             </svg>
           </button>
         </Link>
-        <h1 className="font-extrabold text-5xl">Update your LinkDo</h1>
+        <h1 className="font-extrabold text-5xl text-black">Update your LinkDo</h1>
         <RotatingText />
         <input
           type="text"
@@ -302,6 +302,7 @@ const Update = () => {
         </button>
       </div>
 
+      
       <div className="col2 w-full min-h-screen bg-[#502274]">
         <img
           src="/generate.png"
